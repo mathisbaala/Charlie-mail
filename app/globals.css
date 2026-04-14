@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background-soft: radial-gradient(circle at 50% -20%, #ffffff 0%, #f3f6fb 42%, #eef2f9 100%);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  font-family: var(--font-sans), "Avenir Next", "Segoe UI", sans-serif;
+  background-image: var(--background-soft);
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-serif), Georgia, serif;
+}
