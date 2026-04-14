@@ -16,7 +16,7 @@ function ErrorState({ message }: { message: string }) {
   return (
     <main className="mx-auto flex min-h-screen w-full max-w-xl items-center justify-center px-6 py-12">
       <section className="w-full rounded-3xl border border-ink-100 bg-white p-8 text-center shadow-soft">
-        <h1 className="text-2xl font-semibold text-ink-900">Document not found</h1>
+        <h1 className="text-2xl font-semibold text-ink-900">Document introuvable</h1>
         <p className="mt-3 text-sm text-ink-500">{message}</p>
       </section>
     </main>
@@ -28,8 +28,8 @@ export async function generateMetadata({ params }: SlugPageProps): Promise<Metad
   const document = await getDocumentBySlug(slug);
 
   return {
-    title: document ? `${document.name} | ${branding.companyName}` : "Document not found",
-    description: "Enter your email to access the document."
+    title: document ? `${branding.companyName} | ${document.name}` : `${branding.companyName} | Document introuvable`,
+    description: "Renseignez votre email pour accéder au document."
   };
 }
 
@@ -37,13 +37,13 @@ export default async function SlugPage({ params }: SlugPageProps) {
   const { slug } = await params;
 
   if (!/^[a-z0-9-]+$/.test(slug)) {
-    return <ErrorState message="Invalid slug." />;
+    return <ErrorState message="Slug invalide." />;
   }
 
   const document = await getDocumentBySlug(slug);
 
   if (!document) {
-    return <ErrorState message="This document is not available." />;
+    return <ErrorState message="Ce document n'est pas disponible." />;
   }
 
   return (
@@ -52,7 +52,7 @@ export default async function SlugPage({ params }: SlugPageProps) {
         <div className="flex items-center gap-3">
           <Image
             src={branding.companyLogoUrl}
-            alt={`${branding.companyName} logo`}
+            alt={`Logo ${branding.companyName}`}
             width={36}
             height={36}
             className="h-9 w-9 rounded-lg object-cover"
@@ -71,7 +71,7 @@ export default async function SlugPage({ params }: SlugPageProps) {
           <p className="text-base font-semibold text-ink-900">{branding.ownerName}</p>
         </div>
 
-        <h1 className="mt-7 text-2xl font-semibold text-ink-900">Enter your email to access the document</h1>
+        <h1 className="mt-7 text-2xl font-semibold text-ink-900">Entrez vos informations pour accéder au document</h1>
         <p className="mt-2 text-sm text-ink-500">{document.name}</p>
 
         <LeadCaptureForm slug={document.slug} redirectUrl={document.redirect_url} />

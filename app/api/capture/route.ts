@@ -8,6 +8,8 @@ function isValidEmail(email: string) {
 }
 
 type CapturePayload = {
+  first_name?: string;
+  last_name?: string;
   email?: string;
   slug?: string;
   redirect_url?: string;
@@ -25,25 +27,35 @@ export async function POST(request: NextRequest) {
   try {
     body = (await request.json()) as CapturePayload;
   } catch {
-    return NextResponse.json({ ok: false, message: "Invalid request body." }, { status: 400 });
+    return NextResponse.json({ ok: false, message: "Requête invalide." }, { status: 400 });
   }
 
+  const firstName = body.first_name?.trim();
+  const lastName = body.last_name?.trim();
   const email = body.email?.trim().toLowerCase();
   const slug = body.slug?.trim().toLowerCase();
   const clientRedirectUrl = body.redirect_url?.trim();
 
+  if (!firstName) {
+    return NextResponse.json({ ok: false, message: "Prénom invalide." }, { status: 400 });
+  }
+
+  if (!lastName) {
+    return NextResponse.json({ ok: false, message: "Nom invalide." }, { status: 400 });
+  }
+
   if (!email || !isValidEmail(email)) {
-    return NextResponse.json({ ok: false, message: "Invalid email." }, { status: 400 });
+    return NextResponse.json({ ok: false, message: "Email invalide." }, { status: 400 });
   }
 
   if (!slug || !/^[a-z0-9-]+$/.test(slug)) {
-    return NextResponse.json({ ok: false, message: "Invalid slug." }, { status: 400 });
+    return NextResponse.json({ ok: false, message: "Slug invalide." }, { status: 400 });
   }
 
   const supabase = getSupabaseAdmin();
 
   if (!supabase) {
-    return NextResponse.json({ ok: false, message: "Supabase is not configured." }, { status: 500 });
+    return NextResponse.json({ ok: false, message: "Supabase n'est pas configuré." }, { status: 500 });
   }
 
   const { data: document, error: documentError } = await supabase
@@ -53,16 +65,18 @@ export async function POST(request: NextRequest) {
     .maybeSingle<DocumentRow>();
 
   if (documentError || !document) {
-    return NextResponse.json({ ok: false, message: "Document not found." }, { status: 404 });
+    return NextResponse.json({ ok: false, message: "Document introuvable." }, { status: 404 });
   }
 
   if (!clientRedirectUrl || clientRedirectUrl !== document.redirect_url) {
-    return NextResponse.json({ ok: false, message: "Invalid redirect URL." }, { status: 400 });
+    return NextResponse.json({ ok: false, message: "URL de redirection invalide." }, { status: 400 });
   }
 
   const source = body.source?.trim() || null;
 
   const { error: insertError } = await supabase.from("leads").insert({
+    first_name: firstName,
+    last_name: lastName,
     email,
     document_slug: document.slug,
     redirect_url: document.redirect_url,
@@ -71,7 +85,7 @@ export async function POST(request: NextRequest) {
 
   if (insertError) {
     console.error("Failed to insert lead", insertError);
-    return NextResponse.json({ ok: false, message: "Could not save your email." }, { status: 500 });
+    return NextResponse.json({ ok: false, message: "Impossible d'enregistrer vos informations." }, { status: 500 });
   }
 
   return NextResponse.json({ ok: true, redirectUrl: document.redirect_url });

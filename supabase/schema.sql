@@ -10,12 +10,18 @@ create table if not exists public.documents (
 
 create table if not exists public.leads (
   id uuid primary key default gen_random_uuid(),
+  first_name text,
+  last_name text,
   email text not null,
   document_slug text not null,
   redirect_url text not null,
   source text,
   created_at timestamptz not null default now()
 );
+
+alter table public.leads
+  add column if not exists first_name text,
+  add column if not exists last_name text;
 
 create index if not exists idx_documents_slug
   on public.documents (slug);

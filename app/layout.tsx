@@ -19,6 +19,11 @@ export const metadata: Metadata = {
   metadataBase: new URL(branding.siteUrl),
   title: `${branding.companyName} | Accès document`,
   description: "Accédez au document après validation de votre email.",
+  icons: {
+    icon: [{ url: branding.companyLogoUrl }],
+    shortcut: [branding.companyLogoUrl],
+    apple: [branding.companyLogoUrl]
+  },
   openGraph: {
     title: `${branding.companyName} | Accès document`,
     description: "Accédez au document après validation de votre email.",

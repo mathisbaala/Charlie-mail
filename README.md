@@ -1,13 +1,13 @@
-# Charlie - Simple Dynamic Email Capture
+# Charlie - Capture Email Dynamique
 
-Single landing template with dynamic slug routing.
+Une seule landing page dynamique via `/<slug>`.
 
 Flow:
-1. User opens `/<slug>`
-2. Page fetches document from Supabase (`documents` table)
-3. User enters email
-4. API saves lead in Supabase (`leads` table)
-5. User is redirected to `redirect_url`
+1. L'utilisateur ouvre `/<slug>`
+2. La page charge le document depuis Supabase (`documents`)
+3. L'utilisateur renseigne prénom, nom, email
+4. L'API enregistre le lead dans Supabase (`leads`)
+5. Redirection immédiate vers `redirect_url`
 
 ## Stack
 
@@ -16,7 +16,7 @@ Flow:
 - Tailwind CSS
 - Supabase (database only)
 
-## File structure
+## Structure
 
 ```txt
 .
@@ -38,17 +38,17 @@ Flow:
 └── README.md
 ```
 
-## Dynamic route
+## Route dynamique
 
 - `/facebook`
 - `/instagram`
 - `/papers`
 
-All use the same template: [`app/[slug]/page.tsx`](app/[slug]/page.tsx)
+Template unique: [`app/[slug]/page.tsx`](app/[slug]/page.tsx)
 
-## Supabase schema
+## Schéma Supabase
 
-Run [`supabase/schema.sql`](supabase/schema.sql) in Supabase SQL Editor.
+Exécuter [`supabase/schema.sql`](supabase/schema.sql) dans Supabase SQL Editor.
 
 Tables:
 
@@ -61,15 +61,17 @@ Tables:
 
 - `leads`
   - `id` uuid pk
+  - `first_name` text
+  - `last_name` text
   - `email` text
   - `document_slug` text
   - `redirect_url` text
-  - `source` text (optional)
+  - `source` text (optionnel)
   - `created_at` timestamptz
 
-## Environment variables
+## Variables d'environnement
 
-Copy `.env.example` to `.env.local`:
+Copier `.env.example` vers `.env.local`:
 
 - `NEXT_PUBLIC_SUPABASE_URL`
 - `SUPABASE_SERVICE_ROLE_KEY`
@@ -87,32 +89,34 @@ Body:
 
 ```json
 {
-  "email": "user@example.com",
+  "first_name": "Jean",
+  "last_name": "Dupont",
+  "email": "jean@exemple.com",
   "slug": "facebook",
   "redirect_url": "https://notion.so/...",
   "source": "linkedin"
 }
 ```
 
-Behavior:
-- validates email + slug
-- verifies slug exists in `documents`
-- verifies redirect URL matches slug
-- inserts into `leads`
-- returns redirect URL on success
+Comportement:
+- valide prénom + nom + email + slug
+- vérifie que le slug existe dans `documents`
+- vérifie que `redirect_url` correspond au slug
+- insère dans `leads`
+- retourne l'URL de redirection en succès
 
-## Add a new document (no code change)
+## Ajouter un nouveau document (sans code)
 
-Only add a row in Supabase:
+Ajouter uniquement une ligne dans Supabase:
 
 ```sql
 insert into public.documents (slug, name, redirect_url)
-values ('guide', 'Guide', 'https://notion.so/your-guide-link');
+values ('guide', 'Guide', 'https://notion.so/votre-guide');
 ```
 
-Then your landing works instantly at:
+La landing fonctionne ensuite directement sur:
 
-- `https://your-domain.com/guide`
+- `https://votre-domaine.com/guide`
 
 ## Run
 
