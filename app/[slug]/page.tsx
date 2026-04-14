@@ -71,7 +71,7 @@ export default async function SlugPage({ params }: SlugPageProps) {
           <p className="text-base font-semibold text-ink-900">{branding.ownerName}</p>
         </div>
 
-        <h1 className="mt-7 text-2xl font-semibold text-ink-900">Entrez vos informations pour accéder au document</h1>
+        <h1 className="mt-7 text-2xl font-semibold text-ink-900">Entrez votre adresse e-mail pour recevoir le document</h1>
         <p className="mt-2 text-sm text-ink-500">{document.name}</p>
 
         <LeadCaptureForm slug={document.slug} redirectUrl={document.redirect_url} />
