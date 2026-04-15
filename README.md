@@ -5,7 +5,7 @@ Une seule landing page dynamique via `/<slug>`.
 Flow:
 1. L'utilisateur ouvre `/<slug>`
 2. La page charge le document depuis Supabase (`documents`)
-3. L'utilisateur renseigne prénom, nom, email
+3. L'utilisateur renseigne prénom, nom, email, métier
 4. L'API enregistre le lead dans Supabase (`leads`)
 5. Redirection immédiate vers `redirect_url`
 
@@ -64,6 +64,7 @@ Tables:
   - `first_name` text
   - `last_name` text
   - `email` text
+  - `job_title` text
   - `document_slug` text
   - `redirect_url` text
   - `source` text (optionnel)
@@ -92,6 +93,7 @@ Body:
   "first_name": "Jean",
   "last_name": "Dupont",
   "email": "jean@exemple.com",
+  "job_title": "Conseiller en gestion de patrimoine",
   "slug": "facebook",
   "redirect_url": "https://notion.so/...",
   "source": "linkedin"
@@ -99,7 +101,7 @@ Body:
 ```
 
 Comportement:
-- valide prénom + nom + email + slug
+- valide prénom + nom + email + métier + slug
 - vérifie que le slug existe dans `documents`
 - vérifie que `redirect_url` correspond au slug
 - insère dans `leads`

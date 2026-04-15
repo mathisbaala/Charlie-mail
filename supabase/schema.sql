@@ -13,6 +13,7 @@ create table if not exists public.leads (
   first_name text,
   last_name text,
   email text not null,
+  job_title text,
   document_slug text not null,
   redirect_url text not null,
   source text,
@@ -21,7 +22,8 @@ create table if not exists public.leads (
 
 alter table public.leads
   add column if not exists first_name text,
-  add column if not exists last_name text;
+  add column if not exists last_name text,
+  add column if not exists job_title text;
 
 create index if not exists idx_documents_slug
   on public.documents (slug);

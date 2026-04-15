@@ -11,6 +11,7 @@ type CapturePayload = {
   first_name?: string;
   last_name?: string;
   email?: string;
+  job_title?: string;
   slug?: string;
   redirect_url?: string;
   source?: string;
@@ -33,6 +34,7 @@ export async function POST(request: NextRequest) {
   const firstName = body.first_name?.trim();
   const lastName = body.last_name?.trim();
   const email = body.email?.trim().toLowerCase();
+  const jobTitle = body.job_title?.trim();
   const slug = body.slug?.trim().toLowerCase();
   const clientRedirectUrl = body.redirect_url?.trim();
 
@@ -46,6 +48,10 @@ export async function POST(request: NextRequest) {
 
   if (!email || !isValidEmail(email)) {
     return NextResponse.json({ ok: false, message: "Email invalide." }, { status: 400 });
+  }
+
+  if (!jobTitle) {
+    return NextResponse.json({ ok: false, message: "Métier invalide." }, { status: 400 });
   }
 
   if (!slug || !/^[a-z0-9-]+$/.test(slug)) {
@@ -78,6 +84,7 @@ export async function POST(request: NextRequest) {
     first_name: firstName,
     last_name: lastName,
     email,
+    job_title: jobTitle,
     document_slug: document.slug,
     redirect_url: document.redirect_url,
     source

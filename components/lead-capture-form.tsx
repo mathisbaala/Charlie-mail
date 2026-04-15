@@ -14,6 +14,31 @@ type CaptureResponse = {
   redirectUrl?: string;
 };
 
+const OTHER_JOB_VALUE = "Autre";
+
+const FINANCIAL_ADVISORY_JOB_FAMILIES = [
+  {
+    label: "Banque",
+    jobs: ["Banquier privé", "Conseiller en financement"]
+  },
+  {
+    label: "Assurance",
+    jobs: ["Courtier en assurance", "Assureur", "Mutualiste", "Conseiller en protection sociale"]
+  },
+  {
+    label: "Gestion",
+    jobs: [
+      "Conseiller en gestion de patrimoine",
+      "Family office",
+      "Gérant de fonds",
+      "Conseiller en investissements financiers (CIF)",
+      "Gestionnaire de portefeuille",
+      "Conseiller en gestion de fortune",
+      "Conseiller retraite et prévoyance"
+    ]
+  }
+] as const;
+
 function isValidEmail(email: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
@@ -23,6 +48,8 @@ export function LeadCaptureForm({ slug, redirectUrl }: LeadCaptureFormProps) {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
+  const [jobTitle, setJobTitle] = useState("");
+  const [customJobTitle, setCustomJobTitle] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -36,6 +63,10 @@ export function LeadCaptureForm({ slug, redirectUrl }: LeadCaptureFormProps) {
     const normalizedFirstName = firstName.trim();
     const normalizedLastName = lastName.trim();
     const normalizedEmail = email.trim().toLowerCase();
+    const normalizedJobTitle = jobTitle.trim();
+    const normalizedCustomJobTitle = customJobTitle.trim();
+    const resolvedJobTitle =
+      normalizedJobTitle === OTHER_JOB_VALUE ? normalizedCustomJobTitle : normalizedJobTitle;
 
     if (!normalizedFirstName) {
       setErrorMessage("Veuillez renseigner votre prénom.");
@@ -57,6 +88,16 @@ export function LeadCaptureForm({ slug, redirectUrl }: LeadCaptureFormProps) {
       return;
     }
 
+    if (!normalizedJobTitle) {
+      setErrorMessage("Veuillez sélectionner votre métier.");
+      return;
+    }
+
+    if (normalizedJobTitle === OTHER_JOB_VALUE && !normalizedCustomJobTitle) {
+      setErrorMessage("Veuillez préciser votre métier.");
+      return;
+    }
+
     setErrorMessage(null);
     setIsSubmitting(true);
 
@@ -68,6 +109,7 @@ export function LeadCaptureForm({ slug, redirectUrl }: LeadCaptureFormProps) {
           first_name: normalizedFirstName,
           last_name: normalizedLastName,
           email: normalizedEmail,
+          job_title: resolvedJobTitle,
           slug,
           redirect_url: redirectUrl,
           source
@@ -128,6 +170,47 @@ export function LeadCaptureForm({ slug, redirectUrl }: LeadCaptureFormProps) {
         onChange={(event) => setEmail(event.target.value)}
         className="w-full rounded-xl border border-ink-200 bg-white px-4 py-3 text-sm text-ink-900 outline-none transition focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20"
       />
+
+      <select
+        id="job_title"
+        name="job_title"
+        required
+        value={jobTitle}
+        onChange={(event) => {
+          const selectedJob = event.target.value;
+          setJobTitle(selectedJob);
+
+          if (selectedJob !== OTHER_JOB_VALUE) {
+            setCustomJobTitle("");
+          }
+        }}
+        className="w-full rounded-xl border border-ink-200 bg-white px-4 py-3 text-sm text-ink-900 outline-none transition focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20"
+      >
+        <option value="">Sélectionnez votre métier</option>
+        {FINANCIAL_ADVISORY_JOB_FAMILIES.map((family) => (
+          <optgroup key={family.label} label={family.label}>
+            {family.jobs.map((jobOption) => (
+              <option key={jobOption} value={jobOption}>
+                {jobOption}
+              </option>
+            ))}
+          </optgroup>
+        ))}
+        <option value={OTHER_JOB_VALUE}>{OTHER_JOB_VALUE}</option>
+      </select>
+
+      {jobTitle === OTHER_JOB_VALUE ? (
+        <input
+          id="job_title_other"
+          name="job_title_other"
+          type="text"
+          placeholder="Précisez votre métier"
+          required
+          value={customJobTitle}
+          onChange={(event) => setCustomJobTitle(event.target.value)}
+          className="w-full rounded-xl border border-ink-200 bg-white px-4 py-3 text-sm text-ink-900 outline-none transition focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20"
+        />
+      ) : null}
 
       <button
         type="submit"
