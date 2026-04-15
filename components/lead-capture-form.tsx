@@ -55,6 +55,14 @@ export function LeadCaptureForm({ slug, redirectUrl }: LeadCaptureFormProps) {
 
   const source = searchParams.get("src") ?? undefined;
 
+  function handleJobSelection(selectedJob: string) {
+    setJobTitle(selectedJob);
+
+    if (selectedJob !== OTHER_JOB_VALUE) {
+      setCustomJobTitle("");
+    }
+  }
+
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
@@ -171,33 +179,53 @@ export function LeadCaptureForm({ slug, redirectUrl }: LeadCaptureFormProps) {
         className="w-full rounded-xl border border-ink-200 bg-white px-4 py-3 text-sm text-ink-900 outline-none transition focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20"
       />
 
-      <select
-        id="job_title"
-        name="job_title"
-        required
-        value={jobTitle}
-        onChange={(event) => {
-          const selectedJob = event.target.value;
-          setJobTitle(selectedJob);
+      <section className="rounded-xl border border-ink-200 bg-white p-4 shadow-sm">
+        <p className="text-sm font-medium text-ink-800">Sélectionnez votre métier</p>
 
-          if (selectedJob !== OTHER_JOB_VALUE) {
-            setCustomJobTitle("");
-          }
-        }}
-        className="w-full rounded-xl border border-ink-200 bg-white px-4 py-3 text-sm text-ink-900 outline-none transition focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20"
-      >
-        <option value="">Sélectionnez votre métier</option>
-        {FINANCIAL_ADVISORY_JOB_FAMILIES.map((family) => (
-          <optgroup key={family.label} label={family.label}>
-            {family.jobs.map((jobOption) => (
-              <option key={jobOption} value={jobOption}>
-                {jobOption}
-              </option>
-            ))}
-          </optgroup>
-        ))}
-        <option value={OTHER_JOB_VALUE}>{OTHER_JOB_VALUE}</option>
-      </select>
+        <div className="mt-3 space-y-3">
+          {FINANCIAL_ADVISORY_JOB_FAMILIES.map((family) => (
+            <div key={family.label}>
+              <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-ink-500">{family.label}</p>
+              <div className="flex flex-wrap gap-2">
+                {family.jobs.map((jobOption) => {
+                  const isSelected = jobTitle === jobOption;
+
+                  return (
+                    <button
+                      key={jobOption}
+                      type="button"
+                      onClick={() => handleJobSelection(jobOption)}
+                      className={`rounded-lg border px-3 py-2 text-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500/20 ${
+                        isSelected
+                          ? "border-accent-500 bg-accent-50 text-accent-700"
+                          : "border-ink-200 bg-white text-ink-700 hover:border-ink-300 hover:bg-ink-50"
+                      }`}
+                    >
+                      {jobOption}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-4 border-t border-ink-100 pt-3">
+          <button
+            type="button"
+            onClick={() => handleJobSelection(OTHER_JOB_VALUE)}
+            className={`rounded-lg border px-3 py-2 text-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500/20 ${
+              jobTitle === OTHER_JOB_VALUE
+                ? "border-accent-500 bg-accent-50 text-accent-700"
+                : "border-ink-200 bg-white text-ink-700 hover:border-ink-300 hover:bg-ink-50"
+            }`}
+          >
+            {OTHER_JOB_VALUE}
+          </button>
+        </div>
+      </section>
+
+      <input type="hidden" name="job_title" value={jobTitle} />
 
       {jobTitle === OTHER_JOB_VALUE ? (
         <input
@@ -215,7 +243,7 @@ export function LeadCaptureForm({ slug, redirectUrl }: LeadCaptureFormProps) {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="w-full rounded-xl border border-ink-200 bg-white px-4 py-3 text-sm font-semibold text-ink-900 shadow-sm transition-all hover:-translate-y-0.5 hover:border-ink-300 hover:bg-ink-50 hover:shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500/20 active:translate-y-0 active:shadow-sm disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0 disabled:hover:bg-white"
+        className="w-full rounded-xl bg-accent-500 px-4 py-3 text-sm font-semibold text-white transition hover:bg-accent-600 disabled:cursor-not-allowed disabled:opacity-70"
       >
         {isSubmitting ? "Chargement..." : "Accéder au document"}
       </button>
