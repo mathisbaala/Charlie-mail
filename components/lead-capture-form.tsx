@@ -55,14 +55,6 @@ export function LeadCaptureForm({ slug, redirectUrl }: LeadCaptureFormProps) {
 
   const source = searchParams.get("src") ?? undefined;
 
-  function handleJobSelection(selectedJob: string) {
-    setJobTitle(selectedJob);
-
-    if (selectedJob !== OTHER_JOB_VALUE) {
-      setCustomJobTitle("");
-    }
-  }
-
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
@@ -179,53 +171,44 @@ export function LeadCaptureForm({ slug, redirectUrl }: LeadCaptureFormProps) {
         className="w-full rounded-xl border border-ink-200 bg-white px-4 py-3 text-sm text-ink-900 outline-none transition focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20"
       />
 
-      <section className="rounded-xl border border-ink-200 bg-white p-4 shadow-sm">
-        <p className="text-sm font-medium text-ink-800">Sélectionnez votre métier</p>
+      <div className="relative">
+        <select
+          id="job_title"
+          name="job_title"
+          required
+          value={jobTitle}
+          onChange={(event) => {
+            const selectedJob = event.target.value;
+            setJobTitle(selectedJob);
 
-        <div className="mt-3 space-y-3">
+            if (selectedJob !== OTHER_JOB_VALUE) {
+              setCustomJobTitle("");
+            }
+          }}
+          className="w-full appearance-none rounded-xl border border-ink-200 bg-white px-4 py-3 pr-11 text-sm text-ink-900 outline-none transition focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20"
+        >
+          <option value="">Sélectionnez votre métier</option>
           {FINANCIAL_ADVISORY_JOB_FAMILIES.map((family) => (
-            <div key={family.label}>
-              <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-ink-500">{family.label}</p>
-              <div className="flex flex-wrap gap-2">
-                {family.jobs.map((jobOption) => {
-                  const isSelected = jobTitle === jobOption;
-
-                  return (
-                    <button
-                      key={jobOption}
-                      type="button"
-                      onClick={() => handleJobSelection(jobOption)}
-                      className={`rounded-lg border px-3 py-2 text-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500/20 ${
-                        isSelected
-                          ? "border-accent-500 bg-accent-50 text-accent-700"
-                          : "border-ink-200 bg-white text-ink-700 hover:border-ink-300 hover:bg-ink-50"
-                      }`}
-                    >
-                      {jobOption}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
+            <optgroup key={family.label} label={family.label}>
+              {family.jobs.map((jobOption) => (
+                <option key={jobOption} value={jobOption}>
+                  {jobOption}
+                </option>
+              ))}
+            </optgroup>
           ))}
-        </div>
+          <option value={OTHER_JOB_VALUE}>{OTHER_JOB_VALUE}</option>
+        </select>
 
-        <div className="mt-4 border-t border-ink-100 pt-3">
-          <button
-            type="button"
-            onClick={() => handleJobSelection(OTHER_JOB_VALUE)}
-            className={`rounded-lg border px-3 py-2 text-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500/20 ${
-              jobTitle === OTHER_JOB_VALUE
-                ? "border-accent-500 bg-accent-50 text-accent-700"
-                : "border-ink-200 bg-white text-ink-700 hover:border-ink-300 hover:bg-ink-50"
-            }`}
-          >
-            {OTHER_JOB_VALUE}
-          </button>
-        </div>
-      </section>
-
-      <input type="hidden" name="job_title" value={jobTitle} />
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 20 20"
+          fill="none"
+          className="pointer-events-none absolute right-4 top-1/2 h-5 w-5 -translate-y-1/2 text-ink-500"
+        >
+          <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
+        </svg>
+      </div>
 
       {jobTitle === OTHER_JOB_VALUE ? (
         <input
