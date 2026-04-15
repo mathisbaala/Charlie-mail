@@ -215,7 +215,7 @@ export function LeadCaptureForm({ slug, redirectUrl }: LeadCaptureFormProps) {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="w-full rounded-xl bg-accent-500 px-4 py-3 text-sm font-semibold text-white transition hover:bg-accent-600 disabled:cursor-not-allowed disabled:opacity-70"
+        className="w-full rounded-xl border border-ink-200 bg-white px-4 py-3 text-sm font-semibold text-ink-900 shadow-sm transition-all hover:-translate-y-0.5 hover:border-ink-300 hover:bg-ink-50 hover:shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500/20 active:translate-y-0 active:shadow-sm disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0 disabled:hover:bg-white"
       >
         {isSubmitting ? "Chargement..." : "Accéder au document"}
       </button>
