@@ -54,7 +54,11 @@ export default async function SlugPage({ params }: SlugPageProps) {
   return (
     <main className="mx-auto flex min-h-screen w-full max-w-xl items-center justify-center px-6 py-12">
       <section className="w-full rounded-3xl border border-ink-100 bg-white p-8 shadow-soft">
-        <div className="flex items-center gap-3">
+        <a
+          href="https://www.charliefinancialadvisor.com"
+          className="inline-flex items-center gap-3"
+          aria-label={`Aller sur le site ${branding.companyName}`}
+        >
           <Image
             src={branding.companyLogoUrl}
             alt={`Logo ${branding.companyName}`}
@@ -63,7 +67,7 @@ export default async function SlugPage({ params }: SlugPageProps) {
             className="h-9 w-9 rounded-lg object-cover"
           />
           <span className="text-sm font-semibold text-ink-700">{branding.companyName}</span>
-        </div>
+        </a>
 
         <div className="mt-7 grid grid-cols-2 gap-3">
           {coFounders.map((founder) => (
