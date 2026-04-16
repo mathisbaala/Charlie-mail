@@ -46,6 +46,11 @@ export default async function SlugPage({ params }: SlugPageProps) {
     return <ErrorState message="Ce document n'est pas disponible." />;
   }
 
+  const coFounders = [
+    { name: "Mathis Baala", photoUrl: "/mathis-baala.jpeg" },
+    { name: "Thomas Higadere", photoUrl: branding.ownerPhotoUrl }
+  ] as const;
+
   return (
     <main className="mx-auto flex min-h-screen w-full max-w-xl items-center justify-center px-6 py-12">
       <section className="w-full rounded-3xl border border-ink-100 bg-white p-8 shadow-soft">
@@ -60,15 +65,22 @@ export default async function SlugPage({ params }: SlugPageProps) {
           <span className="text-sm font-semibold text-ink-700">{branding.companyName}</span>
         </div>
 
-        <div className="mt-7 flex items-center gap-3">
-          <Image
-            src={branding.ownerPhotoUrl}
-            alt={branding.ownerName}
-            width={56}
-            height={56}
-            className="h-14 w-14 rounded-full object-cover"
-          />
-          <p className="text-base font-semibold text-ink-900">{branding.ownerName}</p>
+        <div className="mt-7 grid grid-cols-2 gap-3">
+          {coFounders.map((founder) => (
+            <div key={founder.name} className="flex items-center gap-3 rounded-xl border border-ink-100 bg-ink-50/40 p-3">
+              <Image
+                src={founder.photoUrl}
+                alt={founder.name}
+                width={56}
+                height={56}
+                className="h-14 w-14 rounded-full object-cover"
+              />
+              <div>
+                <p className="text-sm font-semibold text-ink-900">{founder.name}</p>
+                <p className="text-xs text-ink-500">Co-founder @CHARLIE</p>
+              </div>
+            </div>
+          ))}
         </div>
 
         <h1 className="mt-7 text-2xl font-semibold text-ink-900">Entrez votre adresse e-mail pour recevoir le document</h1>
