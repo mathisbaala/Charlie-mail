@@ -42,16 +42,8 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ ok: false, message: "Prénom invalide." }, { status: 400 });
   }
 
-  if (!lastName) {
-    return NextResponse.json({ ok: false, message: "Nom invalide." }, { status: 400 });
-  }
-
   if (!email || !isValidEmail(email)) {
     return NextResponse.json({ ok: false, message: "Email invalide." }, { status: 400 });
-  }
-
-  if (!jobTitle) {
-    return NextResponse.json({ ok: false, message: "Métier invalide." }, { status: 400 });
   }
 
   if (!slug || !/^[a-z0-9-]+$/.test(slug)) {
@@ -82,9 +74,9 @@ export async function POST(request: NextRequest) {
 
   const { error: insertError } = await supabase.from("leads").insert({
     first_name: firstName,
-    last_name: lastName,
+    last_name: lastName || null,
     email,
-    job_title: jobTitle,
+    job_title: jobTitle || null,
     document_slug: document.slug,
     redirect_url: document.redirect_url,
     source

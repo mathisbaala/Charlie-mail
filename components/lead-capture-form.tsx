@@ -73,11 +73,6 @@ export function LeadCaptureForm({ slug, redirectUrl }: LeadCaptureFormProps) {
       return;
     }
 
-    if (!normalizedLastName) {
-      setErrorMessage("Veuillez renseigner votre nom.");
-      return;
-    }
-
     if (!normalizedEmail) {
       setErrorMessage("Veuillez renseigner votre email.");
       return;
@@ -85,11 +80,6 @@ export function LeadCaptureForm({ slug, redirectUrl }: LeadCaptureFormProps) {
 
     if (!isValidEmail(normalizedEmail)) {
       setErrorMessage("Email invalide.");
-      return;
-    }
-
-    if (!normalizedJobTitle) {
-      setErrorMessage("Veuillez sélectionner votre métier.");
       return;
     }
 
@@ -151,7 +141,6 @@ export function LeadCaptureForm({ slug, redirectUrl }: LeadCaptureFormProps) {
           type="text"
           autoComplete="family-name"
           placeholder="Nom"
-          required
           value={lastName}
           onChange={(event) => setLastName(event.target.value)}
           className="w-full rounded-xl border border-ink-200 bg-white px-4 py-3 text-sm text-ink-900 outline-none transition focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20"
@@ -175,7 +164,6 @@ export function LeadCaptureForm({ slug, redirectUrl }: LeadCaptureFormProps) {
         <select
           id="job_title"
           name="job_title"
-          required
           value={jobTitle}
           onChange={(event) => {
             const selectedJob = event.target.value;

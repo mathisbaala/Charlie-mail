@@ -5,7 +5,7 @@ Une seule landing page dynamique via `/<slug>`.
 Flow:
 1. L'utilisateur ouvre `/<slug>`
 2. La page charge le document depuis Supabase (`documents`)
-3. L'utilisateur renseigne prénom, nom, email, métier
+3. L'utilisateur renseigne prénom et email (nom et métier optionnels)
 4. L'API enregistre le lead dans Supabase (`leads`)
 5. Redirection immédiate vers `redirect_url`
 
@@ -101,7 +101,7 @@ Body:
 ```
 
 Comportement:
-- valide prénom + nom + email + métier + slug
+- valide prénom + email + slug (`nom` et `métier` optionnels)
 - vérifie que le slug existe dans `documents`
 - vérifie que `redirect_url` correspond au slug
 - insère dans `leads`
