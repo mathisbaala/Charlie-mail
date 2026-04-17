@@ -47,8 +47,16 @@ export default async function SlugPage({ params }: SlugPageProps) {
   }
 
   const coFounders = [
-    { name: "Mathis Baala", photoUrl: "/mathis-baala.jpeg" },
-    { name: "Thomas Higadere", photoUrl: branding.ownerPhotoUrl }
+    {
+      name: "Mathis Baala",
+      photoUrl: "/mathis-baala.jpeg",
+      linkedinUrl: "https://www.linkedin.com/in/mathis-baala"
+    },
+    {
+      name: "Thomas Higadere",
+      photoUrl: branding.ownerPhotoUrl,
+      linkedinUrl: "https://www.linkedin.com/in/thomas-higadere"
+    }
   ] as const;
 
   return (
@@ -71,7 +79,14 @@ export default async function SlugPage({ params }: SlugPageProps) {
 
         <div className="mt-7 grid grid-cols-2 gap-3">
           {coFounders.map((founder) => (
-            <div key={founder.name} className="flex items-center gap-3 rounded-xl border border-ink-100 bg-ink-50/40 p-3">
+            <a
+              key={founder.name}
+              href={founder.linkedinUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-3 rounded-xl border border-ink-100 bg-ink-50/40 p-3 transition hover:bg-ink-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-300"
+              aria-label={`Voir le profil LinkedIn de ${founder.name}`}
+            >
               <Image
                 src={founder.photoUrl}
                 alt={founder.name}
@@ -83,7 +98,7 @@ export default async function SlugPage({ params }: SlugPageProps) {
                 <p className="text-sm font-semibold text-ink-900">{founder.name}</p>
                 <p className="text-xs text-ink-500">Co-founder @CHARLIE</p>
               </div>
-            </div>
+            </a>
           ))}
         </div>
 
