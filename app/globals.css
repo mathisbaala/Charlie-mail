@@ -15,13 +15,34 @@ body {
   min-height: 100%;
 }
 
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
 body {
   font-family: var(--font-sans), "Avenir Next", "Segoe UI", sans-serif;
   background-image: var(--background-soft);
+  overflow-x: hidden;
 }
 
 h1,
 h2,
 h3 {
   font-family: var(--font-serif), Georgia, serif;
+}
+
+@layer utilities {
+  .safe-px {
+    padding-left: max(1rem, env(safe-area-inset-left));
+    padding-right: max(1rem, env(safe-area-inset-right));
+  }
+
+  .safe-pt {
+    padding-top: max(1.25rem, env(safe-area-inset-top));
+  }
+
+  .safe-pb {
+    padding-bottom: max(1.25rem, env(safe-area-inset-bottom));
+  }
 }

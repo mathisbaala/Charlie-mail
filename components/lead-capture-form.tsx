@@ -121,7 +121,7 @@ export function LeadCaptureForm({ slug, redirectUrl }: LeadCaptureFormProps) {
   }
 
   return (
-    <form className="mt-6 space-y-4" onSubmit={handleSubmit} noValidate>
+    <form className="mt-[clamp(1rem,4vw,1.5rem)] space-y-3.5 sm:mt-6 sm:space-y-4" onSubmit={handleSubmit} noValidate>
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         <input
           id="first_name"
@@ -132,7 +132,7 @@ export function LeadCaptureForm({ slug, redirectUrl }: LeadCaptureFormProps) {
           required
           value={firstName}
           onChange={(event) => setFirstName(event.target.value)}
-          className="w-full rounded-xl border border-ink-200 bg-white px-4 py-3 text-sm text-ink-900 outline-none transition focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20"
+          className="min-h-12 w-full rounded-xl border border-ink-200 bg-white px-4 py-3 text-[16px] leading-6 text-ink-900 outline-none transition placeholder:text-ink-500/80 focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20 sm:text-sm"
         />
 
         <input
@@ -143,7 +143,7 @@ export function LeadCaptureForm({ slug, redirectUrl }: LeadCaptureFormProps) {
           placeholder="Nom"
           value={lastName}
           onChange={(event) => setLastName(event.target.value)}
-          className="w-full rounded-xl border border-ink-200 bg-white px-4 py-3 text-sm text-ink-900 outline-none transition focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20"
+          className="min-h-12 w-full rounded-xl border border-ink-200 bg-white px-4 py-3 text-[16px] leading-6 text-ink-900 outline-none transition placeholder:text-ink-500/80 focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20 sm:text-sm"
         />
       </div>
 
@@ -157,7 +157,7 @@ export function LeadCaptureForm({ slug, redirectUrl }: LeadCaptureFormProps) {
         required
         value={email}
         onChange={(event) => setEmail(event.target.value)}
-        className="w-full rounded-xl border border-ink-200 bg-white px-4 py-3 text-sm text-ink-900 outline-none transition focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20"
+        className="min-h-12 w-full rounded-xl border border-ink-200 bg-white px-4 py-3 text-[16px] leading-6 text-ink-900 outline-none transition placeholder:text-ink-500/80 focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20 sm:text-sm"
       />
 
       <div className="relative">
@@ -173,7 +173,7 @@ export function LeadCaptureForm({ slug, redirectUrl }: LeadCaptureFormProps) {
               setCustomJobTitle("");
             }
           }}
-          className="w-full appearance-none rounded-xl border border-ink-200 bg-white px-4 py-3 pr-11 text-sm text-ink-900 outline-none transition focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20"
+          className="min-h-12 w-full appearance-none rounded-xl border border-ink-200 bg-white px-4 py-3 pr-11 text-[16px] leading-6 text-ink-900 outline-none transition focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20 sm:text-sm"
         >
           <option value="">Sélectionnez votre métier</option>
           {FINANCIAL_ADVISORY_JOB_FAMILIES.map((family) => (
@@ -207,19 +207,19 @@ export function LeadCaptureForm({ slug, redirectUrl }: LeadCaptureFormProps) {
           required
           value={customJobTitle}
           onChange={(event) => setCustomJobTitle(event.target.value)}
-          className="w-full rounded-xl border border-ink-200 bg-white px-4 py-3 text-sm text-ink-900 outline-none transition focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20"
+          className="min-h-12 w-full rounded-xl border border-ink-200 bg-white px-4 py-3 text-[16px] leading-6 text-ink-900 outline-none transition placeholder:text-ink-500/80 focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20 sm:text-sm"
         />
       ) : null}
 
       <button
         type="submit"
         disabled={isSubmitting}
-        className="w-full rounded-xl bg-accent-500 px-4 py-3 text-sm font-semibold text-white transition hover:bg-accent-600 disabled:cursor-not-allowed disabled:opacity-70"
+        className="min-h-12 w-full rounded-xl bg-accent-500 px-4 py-3 text-[16px] font-semibold text-white transition hover:bg-accent-600 disabled:cursor-not-allowed disabled:opacity-70 sm:text-sm"
       >
         {isSubmitting ? "Chargement..." : "Accéder au document"}
       </button>
 
-      {errorMessage ? <p className="text-sm text-red-600">{errorMessage}</p> : null}
+      {errorMessage ? <p className="text-sm leading-relaxed text-red-600">{errorMessage}</p> : null}
 
       <p className="text-xs text-ink-500">Accès immédiat après validation</p>
     </form>
