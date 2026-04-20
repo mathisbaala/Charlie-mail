@@ -13,7 +13,6 @@ type CapturePayload = {
   email?: string;
   job_title?: string;
   slug?: string;
-  redirect_url?: string;
   source?: string;
 };
 
@@ -21,6 +20,21 @@ type DocumentRow = {
   slug: string;
   redirect_url: string;
 };
+
+function getValidatedRedirectUrl(value: string) {
+  const redirectUrl = value.trim();
+  if (!redirectUrl) return null;
+
+  try {
+    const parsedUrl = new URL(redirectUrl);
+    if (parsedUrl.protocol !== "https:" && parsedUrl.protocol !== "http:") {
+      return null;
+    }
+    return redirectUrl;
+  } catch {
+    return null;
+  }
+}
 
 export async function POST(request: NextRequest) {
   let body: CapturePayload;
@@ -36,7 +50,6 @@ export async function POST(request: NextRequest) {
   const email = body.email?.trim().toLowerCase();
   const jobTitle = body.job_title?.trim();
   const slug = body.slug?.trim().toLowerCase();
-  const clientRedirectUrl = body.redirect_url?.trim();
 
   if (!firstName) {
     return NextResponse.json({ ok: false, message: "Prénom invalide." }, { status: 400 });
@@ -66,8 +79,13 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ ok: false, message: "Document introuvable." }, { status: 404 });
   }
 
-  if (!clientRedirectUrl || clientRedirectUrl !== document.redirect_url) {
-    return NextResponse.json({ ok: false, message: "URL de redirection invalide." }, { status: 400 });
+  const redirectUrl = getValidatedRedirectUrl(document.redirect_url);
+
+  if (!redirectUrl) {
+    return NextResponse.json(
+      { ok: false, message: "URL de redirection invalide pour ce document." },
+      { status: 500 }
+    );
   }
 
   const source = body.source?.trim() || null;
@@ -78,7 +96,7 @@ export async function POST(request: NextRequest) {
     email,
     job_title: jobTitle || null,
     document_slug: document.slug,
-    redirect_url: document.redirect_url,
+    redirect_url: redirectUrl,
     source
   });
 
@@ -87,5 +105,5 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ ok: false, message: "Impossible d'enregistrer vos informations." }, { status: 500 });
   }
 
-  return NextResponse.json({ ok: true, redirectUrl: document.redirect_url });
+  return NextResponse.json({ ok: true, redirectUrl });
 }

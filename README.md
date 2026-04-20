@@ -95,7 +95,6 @@ Body:
   "email": "jean@exemple.com",
   "job_title": "Conseiller en gestion de patrimoine",
   "slug": "facebook",
-  "redirect_url": "https://notion.so/...",
   "source": "linkedin"
 }
 ```
@@ -103,7 +102,7 @@ Body:
 Comportement:
 - valide prénom + email + slug (`nom` et `métier` optionnels)
 - vérifie que le slug existe dans `documents`
-- vérifie que `redirect_url` correspond au slug
+- valide `redirect_url` du document côté serveur (HTTP/HTTPS)
 - insère dans `leads`
 - retourne l'URL de redirection en succès
 

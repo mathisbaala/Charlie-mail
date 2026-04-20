@@ -107,7 +107,7 @@ export default async function SlugPage({ params }: SlugPageProps) {
         </h1>
         <p className="mt-2 break-words text-sm leading-relaxed text-ink-500">{document.name}</p>
 
-        <LeadCaptureForm slug={document.slug} redirectUrl={document.redirect_url} />
+        <LeadCaptureForm slug={document.slug} />
       </section>
     </main>
   );

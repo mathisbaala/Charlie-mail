@@ -5,7 +5,6 @@ import { useSearchParams } from "next/navigation";
 
 type LeadCaptureFormProps = {
   slug: string;
-  redirectUrl: string;
 };
 
 type CaptureResponse = {
@@ -43,7 +42,7 @@ function isValidEmail(email: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
-export function LeadCaptureForm({ slug, redirectUrl }: LeadCaptureFormProps) {
+export function LeadCaptureForm({ slug }: LeadCaptureFormProps) {
   const searchParams = useSearchParams();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -101,7 +100,6 @@ export function LeadCaptureForm({ slug, redirectUrl }: LeadCaptureFormProps) {
           email: normalizedEmail,
           job_title: resolvedJobTitle,
           slug,
-          redirect_url: redirectUrl,
           source
         })
       });
