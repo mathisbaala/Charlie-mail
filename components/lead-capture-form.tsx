@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 
 type LeadCaptureFormProps = {
   slug: string;
+  compact?: boolean;
 };
 
 type CaptureResponse = {
@@ -42,7 +43,7 @@ function isValidEmail(email: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
-export function LeadCaptureForm({ slug }: LeadCaptureFormProps) {
+export function LeadCaptureForm({ slug, compact = false }: LeadCaptureFormProps) {
   const searchParams = useSearchParams();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -128,8 +129,15 @@ export function LeadCaptureForm({ slug }: LeadCaptureFormProps) {
     }
   }
 
+  const formSpacingClasses = compact ? "mt-3 space-y-2.5 sm:mt-3 sm:space-y-3" : "mt-[clamp(1rem,4vw,1.5rem)] space-y-3.5 sm:mt-6 sm:space-y-4";
+  const fieldHeightClass = compact ? "min-h-10" : "min-h-12";
+  const fieldPaddingClass = compact ? "py-2.5" : "py-3";
+  const fieldTextClass = compact ? "text-sm leading-5" : "text-[16px] leading-6";
+  const selectRightPaddingClass = compact ? "pr-10" : "pr-11";
+  const submitTextClass = compact ? "text-sm" : "text-[16px]";
+
   return (
-    <form className="mt-[clamp(1rem,4vw,1.5rem)] space-y-3.5 sm:mt-6 sm:space-y-4" onSubmit={handleSubmit} noValidate>
+    <form className={formSpacingClasses} onSubmit={handleSubmit} noValidate>
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         <input
           id="first_name"
@@ -140,7 +148,7 @@ export function LeadCaptureForm({ slug }: LeadCaptureFormProps) {
           required
           value={firstName}
           onChange={(event) => setFirstName(event.target.value)}
-          className="min-h-12 w-full rounded-xl border border-ink-200 bg-white px-4 py-3 text-[16px] leading-6 text-ink-900 outline-none transition placeholder:text-ink-500/80 focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20 sm:text-sm"
+          className={`${fieldHeightClass} w-full rounded-xl border border-ink-200 bg-white px-4 ${fieldPaddingClass} ${fieldTextClass} text-ink-900 outline-none transition placeholder:text-ink-500/80 focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20`}
         />
 
         <input
@@ -152,7 +160,7 @@ export function LeadCaptureForm({ slug }: LeadCaptureFormProps) {
           required
           value={lastName}
           onChange={(event) => setLastName(event.target.value)}
-          className="min-h-12 w-full rounded-xl border border-ink-200 bg-white px-4 py-3 text-[16px] leading-6 text-ink-900 outline-none transition placeholder:text-ink-500/80 focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20 sm:text-sm"
+          className={`${fieldHeightClass} w-full rounded-xl border border-ink-200 bg-white px-4 ${fieldPaddingClass} ${fieldTextClass} text-ink-900 outline-none transition placeholder:text-ink-500/80 focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20`}
         />
       </div>
 
@@ -166,7 +174,7 @@ export function LeadCaptureForm({ slug }: LeadCaptureFormProps) {
         required
         value={email}
         onChange={(event) => setEmail(event.target.value)}
-        className="min-h-12 w-full rounded-xl border border-ink-200 bg-white px-4 py-3 text-[16px] leading-6 text-ink-900 outline-none transition placeholder:text-ink-500/80 focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20 sm:text-sm"
+        className={`${fieldHeightClass} w-full rounded-xl border border-ink-200 bg-white px-4 ${fieldPaddingClass} ${fieldTextClass} text-ink-900 outline-none transition placeholder:text-ink-500/80 focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20`}
       />
 
       <div className="relative">
@@ -183,7 +191,7 @@ export function LeadCaptureForm({ slug }: LeadCaptureFormProps) {
               setCustomJobTitle("");
             }
           }}
-          className="min-h-12 w-full appearance-none rounded-xl border border-ink-200 bg-white px-4 py-3 pr-11 text-[16px] leading-6 text-ink-900 outline-none transition focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20 sm:text-sm"
+          className={`${fieldHeightClass} w-full appearance-none rounded-xl border border-ink-200 bg-white px-4 ${fieldPaddingClass} ${selectRightPaddingClass} ${fieldTextClass} text-ink-900 outline-none transition focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20`}
         >
           <option value="">Sélectionnez votre métier</option>
           {FINANCIAL_ADVISORY_JOB_FAMILIES.map((family) => (
@@ -202,7 +210,7 @@ export function LeadCaptureForm({ slug }: LeadCaptureFormProps) {
           aria-hidden="true"
           viewBox="0 0 20 20"
           fill="none"
-          className="pointer-events-none absolute right-4 top-1/2 h-5 w-5 -translate-y-1/2 text-ink-500"
+          className={`pointer-events-none absolute right-4 top-1/2 ${compact ? "h-4 w-4" : "h-5 w-5"} -translate-y-1/2 text-ink-500`}
         >
           <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
         </svg>
@@ -217,14 +225,14 @@ export function LeadCaptureForm({ slug }: LeadCaptureFormProps) {
           required
           value={customJobTitle}
           onChange={(event) => setCustomJobTitle(event.target.value)}
-          className="min-h-12 w-full rounded-xl border border-ink-200 bg-white px-4 py-3 text-[16px] leading-6 text-ink-900 outline-none transition placeholder:text-ink-500/80 focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20 sm:text-sm"
+          className={`${fieldHeightClass} w-full rounded-xl border border-ink-200 bg-white px-4 ${fieldPaddingClass} ${fieldTextClass} text-ink-900 outline-none transition placeholder:text-ink-500/80 focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20`}
         />
       ) : null}
 
       <button
         type="submit"
         disabled={isSubmitting}
-        className="min-h-12 w-full rounded-xl bg-accent-500 px-4 py-3 text-[16px] font-semibold text-white transition hover:bg-accent-600 disabled:cursor-not-allowed disabled:opacity-70 sm:text-sm"
+        className={`${fieldHeightClass} w-full rounded-xl bg-accent-500 px-4 ${fieldPaddingClass} ${submitTextClass} font-semibold text-white transition hover:bg-accent-600 disabled:cursor-not-allowed disabled:opacity-70`}
       >
         {isSubmitting ? "Chargement..." : "Accéder au document"}
       </button>

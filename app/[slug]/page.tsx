@@ -70,8 +70,8 @@ export default async function SlugPage({ params }: SlugPageProps) {
 
   return (
     <main className="safe-px safe-pt safe-pb min-h-[100dvh] w-full sm:px-6 sm:py-8 lg:py-10">
-      <div className="mr-auto grid w-full max-w-[92rem] gap-6 lg:grid-cols-[20rem_minmax(0,46rem)] lg:gap-8">
-        <aside className="rounded-2xl border border-ink-100 bg-ink-50/70 p-4 sm:p-5">
+      <div className="mr-auto grid w-full max-w-[92rem] grid-cols-1 gap-6 lg:grid-cols-[minmax(16rem,20rem)_minmax(0,46rem)] lg:items-stretch lg:gap-8">
+        <aside className="h-full rounded-2xl border border-ink-100 bg-ink-50/70 p-4 sm:p-5">
           <div className="space-y-3">
             {coFounders.map((founder) => (
               <article key={founder.name} className="rounded-xl border border-ink-100 bg-white p-3.5">
@@ -138,13 +138,28 @@ export default async function SlugPage({ params }: SlugPageProps) {
           </div>
         </aside>
 
-        <div className="py-1 sm:py-2">
-          <h1 className="max-w-[28ch] text-[clamp(1.25rem,6.5vw,1.75rem)] font-semibold leading-tight text-ink-900">
-            Entrez votre adresse e-mail pour recevoir le document
-          </h1>
-          <p className="mt-2 break-words text-sm leading-relaxed text-ink-500">{document.name}</p>
+        <div className="h-full py-1 sm:py-2 lg:py-3">
+          <section className="flex h-full flex-col justify-start gap-5 sm:gap-6 lg:justify-between lg:gap-8">
+            <div className="overflow-hidden rounded-2xl">
+              <Image
+                src="/charlie-linkedin-banner.png"
+                alt="Bannière Charlie"
+                width={2200}
+                height={550}
+                className="h-auto w-full object-cover"
+                priority
+              />
+            </div>
 
-          <LeadCaptureForm slug={document.slug} />
+            <h1 className="w-full text-center text-[clamp(1.15rem,2.4vw,1.85rem)] font-semibold italic leading-[1.18] text-ink-900">
+              Téléchargez les playbooks IA que les meilleurs conseillers utilisent déjà.
+            </h1>
+
+            <div className="w-full">
+              <p className="text-xs uppercase tracking-[0.08em] text-ink-500">Questionnaire d’accès</p>
+              <LeadCaptureForm slug={document.slug} compact />
+            </div>
+          </section>
         </div>
       </div>
     </main>
