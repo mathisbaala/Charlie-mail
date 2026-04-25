@@ -129,16 +129,18 @@ export function LeadCaptureForm({ slug, compact = false }: LeadCaptureFormProps)
     }
   }
 
-  const formSpacingClasses = compact ? "mt-3 space-y-2.5 sm:mt-3 sm:space-y-3" : "mt-[clamp(1rem,4vw,1.5rem)] space-y-3.5 sm:mt-6 sm:space-y-4";
-  const fieldHeightClass = compact ? "min-h-10" : "min-h-12";
+  const formSpacingClasses = compact
+    ? "mt-3 space-y-2.5 sm:space-y-3"
+    : "mt-[clamp(1rem,4vw,1.5rem)] space-y-3.5 sm:mt-6 sm:space-y-4";
+  const fieldHeightClass = compact ? "min-h-11 sm:min-h-10" : "min-h-12";
   const fieldPaddingClass = compact ? "py-2.5" : "py-3";
-  const fieldTextClass = compact ? "text-sm leading-5" : "text-[16px] leading-6";
+  const fieldTextClass = compact ? "text-[16px] leading-6 sm:text-sm sm:leading-5" : "text-[16px] leading-6";
   const selectRightPaddingClass = compact ? "pr-10" : "pr-11";
-  const submitTextClass = compact ? "text-sm" : "text-[16px]";
+  const submitTextClass = compact ? "text-[16px] sm:text-sm" : "text-[16px]";
 
   return (
     <form className={formSpacingClasses} onSubmit={handleSubmit} noValidate>
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2 sm:gap-3">
         <input
           id="first_name"
           name="first_name"
@@ -148,7 +150,7 @@ export function LeadCaptureForm({ slug, compact = false }: LeadCaptureFormProps)
           required
           value={firstName}
           onChange={(event) => setFirstName(event.target.value)}
-          className={`${fieldHeightClass} w-full rounded-xl border border-ink-200 bg-white px-4 ${fieldPaddingClass} ${fieldTextClass} text-ink-900 outline-none transition placeholder:text-ink-500/80 focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20`}
+          className={`${fieldHeightClass} w-full min-w-0 rounded-xl border border-ink-200 bg-white px-4 ${fieldPaddingClass} ${fieldTextClass} text-ink-900 outline-none transition placeholder:text-ink-500/80 focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20`}
         />
 
         <input
@@ -160,7 +162,7 @@ export function LeadCaptureForm({ slug, compact = false }: LeadCaptureFormProps)
           required
           value={lastName}
           onChange={(event) => setLastName(event.target.value)}
-          className={`${fieldHeightClass} w-full rounded-xl border border-ink-200 bg-white px-4 ${fieldPaddingClass} ${fieldTextClass} text-ink-900 outline-none transition placeholder:text-ink-500/80 focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20`}
+          className={`${fieldHeightClass} w-full min-w-0 rounded-xl border border-ink-200 bg-white px-4 ${fieldPaddingClass} ${fieldTextClass} text-ink-900 outline-none transition placeholder:text-ink-500/80 focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20`}
         />
       </div>
 
@@ -174,7 +176,7 @@ export function LeadCaptureForm({ slug, compact = false }: LeadCaptureFormProps)
         required
         value={email}
         onChange={(event) => setEmail(event.target.value)}
-        className={`${fieldHeightClass} w-full rounded-xl border border-ink-200 bg-white px-4 ${fieldPaddingClass} ${fieldTextClass} text-ink-900 outline-none transition placeholder:text-ink-500/80 focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20`}
+        className={`${fieldHeightClass} w-full min-w-0 rounded-xl border border-ink-200 bg-white px-4 ${fieldPaddingClass} ${fieldTextClass} text-ink-900 outline-none transition placeholder:text-ink-500/80 focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20`}
       />
 
       <div className="relative">
@@ -191,7 +193,7 @@ export function LeadCaptureForm({ slug, compact = false }: LeadCaptureFormProps)
               setCustomJobTitle("");
             }
           }}
-          className={`${fieldHeightClass} w-full appearance-none rounded-xl border border-ink-200 bg-white px-4 ${fieldPaddingClass} ${selectRightPaddingClass} ${fieldTextClass} text-ink-900 outline-none transition focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20`}
+          className={`${fieldHeightClass} w-full min-w-0 appearance-none truncate rounded-xl border border-ink-200 bg-white px-4 ${fieldPaddingClass} ${selectRightPaddingClass} ${fieldTextClass} text-ink-900 outline-none transition focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20`}
         >
           <option value="">Sélectionnez votre métier</option>
           {FINANCIAL_ADVISORY_JOB_FAMILIES.map((family) => (
@@ -225,14 +227,14 @@ export function LeadCaptureForm({ slug, compact = false }: LeadCaptureFormProps)
           required
           value={customJobTitle}
           onChange={(event) => setCustomJobTitle(event.target.value)}
-          className={`${fieldHeightClass} w-full rounded-xl border border-ink-200 bg-white px-4 ${fieldPaddingClass} ${fieldTextClass} text-ink-900 outline-none transition placeholder:text-ink-500/80 focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20`}
+          className={`${fieldHeightClass} w-full min-w-0 rounded-xl border border-ink-200 bg-white px-4 ${fieldPaddingClass} ${fieldTextClass} text-ink-900 outline-none transition placeholder:text-ink-500/80 focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20`}
         />
       ) : null}
 
       <button
         type="submit"
         disabled={isSubmitting}
-        className={`${fieldHeightClass} w-full rounded-xl bg-accent-500 px-4 ${fieldPaddingClass} ${submitTextClass} font-semibold text-white transition hover:bg-accent-600 disabled:cursor-not-allowed disabled:opacity-70`}
+        className={`${fieldHeightClass} w-full rounded-xl bg-accent-500 px-4 ${fieldPaddingClass} ${submitTextClass} font-semibold leading-6 text-white transition hover:bg-accent-600 disabled:cursor-not-allowed disabled:opacity-70 sm:leading-5`}
       >
         {isSubmitting ? "Chargement..." : "Accéder au document"}
       </button>

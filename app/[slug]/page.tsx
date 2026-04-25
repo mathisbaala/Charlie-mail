@@ -69,10 +69,10 @@ export default async function SlugPage({ params }: SlugPageProps) {
   ] as const;
 
   return (
-    <main className="safe-px safe-pt safe-pb min-h-[100dvh] w-full sm:px-6 sm:py-8 lg:py-10">
-      <div className="mr-auto grid w-full max-w-[92rem] grid-cols-1 gap-6 lg:grid-cols-[minmax(16rem,20rem)_minmax(0,46rem)] lg:items-stretch lg:gap-8">
-        <aside className="h-full rounded-2xl border border-ink-100 bg-ink-50/70 p-4 sm:p-5">
-          <div className="space-y-3">
+    <main className="safe-px safe-pt safe-pb min-h-[100dvh] w-full sm:px-6 sm:py-8 lg:py-10 xl:py-12">
+      <div className="mx-auto grid w-full max-w-[88rem] grid-cols-1 gap-5 md:gap-6 lg:grid-cols-[minmax(15rem,18rem)_minmax(0,50rem)] lg:items-stretch lg:justify-center lg:gap-8 xl:grid-cols-[minmax(17rem,20rem)_minmax(0,56rem)]">
+        <aside className="order-last flex h-full min-w-0 flex-col gap-3 rounded-2xl border border-ink-100 bg-ink-50/70 p-3.5 sm:gap-4 sm:p-5 lg:order-none lg:gap-5">
+          <div className="flex flex-col gap-3">
             {coFounders.map((founder) => (
               <article key={founder.name} className="rounded-xl border border-ink-100 bg-white p-3.5">
                 <div className="flex items-center gap-3">
@@ -104,12 +104,12 @@ export default async function SlugPage({ params }: SlugPageProps) {
             ))}
           </div>
 
-          <div className="mt-5 rounded-xl border border-ink-100 bg-white p-3.5">
+          <div className="flex flex-col rounded-xl border border-ink-100 bg-white p-3.5 lg:flex-1">
             <a
               href="https://www.charliefinancialadvisor.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2.5"
+              className="inline-flex max-w-full items-center gap-2.5"
               aria-label={`Aller sur le site ${branding.companyName}`}
             >
               <Image
@@ -119,10 +119,10 @@ export default async function SlugPage({ params }: SlugPageProps) {
                 height={36}
                 className="h-8 w-8 rounded-lg object-cover"
               />
-              <span className="text-[0.875rem] font-semibold text-ink-700">{branding.companyName}</span>
+              <span className="min-w-0 truncate text-[0.875rem] font-semibold text-ink-700">{branding.companyName}</span>
             </a>
 
-            <nav className="mt-3 grid grid-cols-1 gap-2">
+            <nav className="mt-3 flex flex-col gap-2 lg:flex-1 lg:justify-evenly">
               {charlieLinks.map((link) => (
                 <a
                   key={link.label}
@@ -138,25 +138,26 @@ export default async function SlugPage({ params }: SlugPageProps) {
           </div>
         </aside>
 
-        <div className="h-full py-1 sm:py-2 lg:py-3">
-          <section className="flex h-full flex-col justify-start gap-5 sm:gap-6 lg:justify-between lg:gap-8">
-            <div className="overflow-hidden rounded-2xl">
+        <div className="order-first min-w-0 lg:order-none lg:py-3">
+          <section className="flex min-h-full flex-col justify-start gap-4 sm:gap-5 md:gap-6 lg:justify-between lg:gap-8">
+            <div className="overflow-hidden rounded-xl sm:rounded-2xl">
               <Image
                 src="/charlie-linkedin-banner.png"
                 alt="Bannière Charlie"
                 width={2200}
                 height={550}
-                className="h-auto w-full object-cover"
+                sizes="(min-width: 1280px) 56rem, (min-width: 1024px) 50rem, calc(100vw - 2rem)"
+                className="aspect-[4/1] h-auto min-h-[7rem] w-full object-cover sm:min-h-[9rem] lg:min-h-[10rem]"
                 priority
               />
             </div>
 
-            <h1 className="w-full text-center text-[clamp(1.15rem,2.4vw,1.85rem)] font-semibold italic leading-[1.18] text-ink-900">
+            <h1 className="mx-auto w-full max-w-[48rem] text-center text-[clamp(1.35rem,5vw,2rem)] font-semibold italic leading-[1.16] text-ink-900 sm:text-[clamp(1.5rem,3.2vw,2.15rem)]">
               Téléchargez les playbooks IA que les meilleurs conseillers utilisent déjà.
             </h1>
 
-            <div className="w-full">
-              <p className="text-xs uppercase tracking-[0.08em] text-ink-500">Questionnaire d’accès</p>
+            <div className="mx-auto w-full max-w-[44rem]">
+              <p className="text-xs uppercase tracking-[0.08em] text-ink-500">Questionnaire d'accès</p>
               <LeadCaptureForm slug={document.slug} compact />
             </div>
           </section>
