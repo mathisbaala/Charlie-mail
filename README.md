@@ -1,4 +1,6 @@
-# Charlie - Capture Email Dynamique
+# charlie-mail
+
+Capture email dynamique pour Charlie.
 
 Une seule landing page dynamique via `/<slug>`.
 

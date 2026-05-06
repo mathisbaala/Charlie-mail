@@ -4,7 +4,7 @@ export default function HomePage() {
   return (
     <main className="safe-px safe-pt safe-pb mx-auto flex min-h-[100dvh] w-full max-w-2xl items-center justify-center sm:px-6 sm:py-12">
       <section className="w-full rounded-[1.125rem] border border-ink-100 bg-white p-[clamp(1rem,4.5vw,2rem)] shadow-soft sm:rounded-3xl">
-        <h1 className="text-[clamp(1.5rem,7.2vw,1.875rem)] font-semibold leading-tight text-ink-900">Capture Email Charlie</h1>
+        <h1 className="text-[clamp(1.5rem,7.2vw,1.875rem)] font-semibold leading-tight text-ink-900">charlie-mail</h1>
         <p className="mt-3 text-sm leading-relaxed text-ink-500 sm:mt-4">
           Utilisez des URLs dynamiques comme <code className="rounded bg-ink-100 px-1 py-0.5">/facebook</code>.
         </p>
