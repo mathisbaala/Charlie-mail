@@ -2,7 +2,9 @@
 
 Capture email dynamique pour Charlie.
 
-Une seule landing page dynamique via `/<slug>`.
+Landing pages disponibles:
+- dynamique via `/<slug>` (document + redirection)
+- statique via `/newsletter` (inscription newsletter)
 
 Flow:
 1. L'utilisateur ouvre `/<slug>`
@@ -10,6 +12,12 @@ Flow:
 3. L'utilisateur renseigne prénom, nom, email et métier
 4. L'API enregistre le lead dans Supabase (`leads`)
 5. Redirection immédiate vers `redirect_url`
+
+Flow newsletter:
+1. L'utilisateur ouvre `/newsletter`
+2. Il renseigne son email
+3. L'API enregistre dans Supabase (`leads`) avec `document_slug = newsletter`
+4. Message de confirmation sur la page
 
 ## Stack
 
@@ -25,11 +33,14 @@ Flow:
 ├── app
 │   ├── [slug]/page.tsx
 │   ├── api/capture/route.ts
+│   ├── api/newsletter/route.ts
 │   ├── globals.css
 │   ├── layout.tsx
+│   ├── newsletter/page.tsx
 │   └── page.tsx
 ├── components
-│   └── lead-capture-form.tsx
+│   ├── lead-capture-form.tsx
+│   └── newsletter-form.tsx
 ├── lib
 │   ├── config/branding.ts
 │   ├── documents.ts
@@ -47,6 +58,12 @@ Flow:
 - `/papers`
 
 Template unique: [`app/[slug]/page.tsx`](app/[slug]/page.tsx)
+
+## Route newsletter
+
+- `/newsletter`
+
+Template: [`app/newsletter/page.tsx`](app/newsletter/page.tsx)
 
 ## Schéma Supabase
 
@@ -107,6 +124,23 @@ Comportement:
 - valide `redirect_url` du document côté serveur (HTTP/HTTPS)
 - insère dans `leads`
 - retourne l'URL de redirection en succès
+
+`POST /api/newsletter`
+
+Body:
+
+```json
+{
+  "email": "jean@exemple.com",
+  "source": "linkedin"
+}
+```
+
+Comportement:
+- valide l'email
+- vérifie si l'email est déjà inscrit sur `document_slug = newsletter`
+- insère dans `leads` si absent
+- retourne un statut succès (inscrit / déjà inscrit)
 
 ## Ajouter un nouveau document (sans code)
 
